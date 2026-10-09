@@ -1,0 +1,8 @@
+Currency,Best Model Order,AR Terms (p),MA Terms (q),Optimal AIC
+USD/KSH,"ARMA(2, 2)",2,2,-52550.51
+EUR/KSH,"ARMA(2, 0)",2,0,-47042.27
+UKP/KSH,"ARMA(2, 0)",2,0,-46857.35
+SWF/KSH,"ARMA(2, 0)",2,0,-45758.45
+JYN/KSH,"ARMA(0, 2)",0,2,-43573.91
+CHY/KSH,"ARMA(2, 0)",2,0,-51653.86
+SAR/KSH,"ARMA(3, 3)",3,3,-40996.21

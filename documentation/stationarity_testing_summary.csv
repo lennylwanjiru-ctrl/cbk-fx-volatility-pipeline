@@ -1,0 +1,8 @@
+Currency,ADF Statistic,p-Value,5% Critical Value,Test Outcome
+USD/KSH,-12.281,0.0,-2.862,Stationary (Reject H0)
+EUR/KSH,-64.4263,0.0,-2.862,Stationary (Reject H0)
+UKP/KSH,-61.8378,0.0,-2.862,Stationary (Reject H0)
+SWF/KSH,-49.0156,0.0,-2.862,Stationary (Reject H0)
+JYN/KSH,-20.1435,0.0,-2.862,Stationary (Reject H0)
+CHY/KSH,-13.2176,0.0,-2.862,Stationary (Reject H0)
+SAR/KSH,-31.7093,0.0,-2.862,Stationary (Reject H0)

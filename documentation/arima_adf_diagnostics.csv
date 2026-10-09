@@ -1,0 +1,8 @@
+Currency,ADF Stat (8 Lags),p-Value,5% Critical Value,Stationarity Verdict
+USD/KSH,-25.9979,0.0,-3.4112,Stationary (Ready for ARIMA)
+EUR/KSH,-27.4509,0.0,-3.4112,Stationary (Ready for ARIMA)
+UKP/KSH,-27.2004,0.0,-3.4112,Stationary (Ready for ARIMA)
+SWF/KSH,-27.3636,0.0,-3.4112,Stationary (Ready for ARIMA)
+JYN/KSH,-27.5419,0.0,-3.4112,Stationary (Ready for ARIMA)
+CHY/KSH,-25.9397,0.0,-3.4112,Stationary (Ready for ARIMA)
+SAR/KSH,-27.7582,0.0,-3.4112,Stationary (Ready for ARIMA)
