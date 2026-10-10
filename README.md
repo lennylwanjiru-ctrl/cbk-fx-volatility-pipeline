@@ -1,46 +1,103 @@
-# Central Bank of Kenya (CBK) FX Volatility Pipeline & Econometric Analytics Engine
+# Central Bank of Kenya (CBK) Foreign Exchange Volatility Pipeline & Econometric Forecasting Engine
+**Lead Analyst:** Lenny Wanjiru | *Dedan Kimathi University of Technology (DeKUT)*  
+**Core Stack:** Python, SQLite, `arch`, `statsmodels`, `scipy`, `seaborn`, `matplotlib`
 
-An enterprise-grade financial data engineering pipeline and quantitative risk-forecasting engine built to process multi-currency historical exchange rates versus the Kenyan Shilling (KES) across a 25-year timeline horizon (2001 - 2026).
 
+
+##  The Problem Being Solved (In Simple English)
+Commercial banks, import-export companies, and government offices in Kenya constantly struggle with a major issue: **unpredictable changes in foreign exchange rates**. When the Kenyan Shilling (KES) suddenly drops or spikes against major world currencies like the US Dollar or the Euro, it instantly disrupts business operations. Importers face unexpected extra costs for goods, local companies struggle to budget for raw materials, and institutional investors risk losing millions due to market shifts. 
+
+Traditional tracking models fail because they try to project currency movements using a simple, predictable straight line. In reality, financial markets don't move in a straight line; they experience volatile clusters where wild ups and downs feed on each other over time. 
+
+I built this quantitative data pipeline to solve this exact issue. The system cleans historical Central Bank of Kenya exchange rates, checks the data for core statistical properties, and deploys advanced time-series forecasting models (ARIMA and GARCH). By converting raw daily price records into a clear 5-day out-of-sample volatility forecast, this platform allows organizations to mathematically predict currency risk shifts, enabling them to protect their money and stabilize operations ahead of market shocks.
+
+
+
+##  Who Will Benefit From This Platform?
+This framework translates complex macroeconomic anomalies into clear, actionable metrics to protect multiple stakeholders:
+
+*   **Corporate Treasury Teams (e.g., Safaricom, EABL):** Provides clear cash flow risk metrics to help managers time currency conversions and budget for international supply chain shipments without facing surprise losses.
+*   **Commercial Bank Risk Managers (e.g., NCBA, Equity Bank):** Delivers precise mathematical volatility estimates to guide currency traders, set optimal asset-liability margins, and manage regulatory capital reserves safely.
+*   **Import-Export Business Owners:** Gives non-technical managers a straightforward risk outlook to help them negotiate stable contract pricing with international partners.
+*   **Macroeconomic Policy Advisors:** Generates structural trend analytics to help analysts study exchange stability and track the real-world impact of central bank interventions.
+
+
+
+##  The 6-Phase Technical Roadmap
+To audit or execute this forecasting engine, run the operational scripts sequentially within your terminal to preserve data file dependencies across the environment:
+
+1.  **`clean_data.py`** *(Data Quality Layer)*  
+    Ingests raw scrapped currency logs, normalizes column headers to a uniform standard, and fixes data gaps using a clean forward-backward interpolation padding loop.
+2.  **`simple_returns_analytics.py` & `log_returns_analytics.py`** *(Feature Engineering Core)*  
+    Transforms raw asset price arrays into daily percentage changes and continuous log returns, executing a robust 9-point statistical distribution matrix.
+3.  **`distribution_analysis.py` & `hypothesis_testing.py`** *(Exploratory Inferences)*  
+    Generates empirical histograms overlaid with theoretical Gaussian parametric curves and runs a 1-sample t-test against a population mean of 0 to isolate true risk relativities.
+4.  **`stationarity_testing.py` & `arima_diagnostic_testing.py`** *(Pre-requisite Regressions)*  
+    Executes automated and fixed 8-lag Augmented Dickey-Fuller (ADF) unit root regressions to check for mathematical stationarity before launching forecasting models.
+5.  **`arma_model_selection.py` & `residual_lag_analysis.py`** *(Model Optimization Suite)*  
+    Runs an automated grid search to find optimal lag orders based on minimum AIC checks, and performs a 20-lag Ljung-Box Q-test on residuals to verify white noise behavior.
+6.  **`volatility_diagnostic_testing.py` & `advanced_volatility_forecasting.py`** *(Volatility Predictions)*  
+    Scans for variance clustering using an Engle ARCH-LM test up to 40 lags, fits advanced EGARCH(1,1) and GJR-GARCH(1,1) asymmetric models, and exports the final 5-day currency volatility forecast matrix.
 
 ---
 
-##  Business & Actuarial Value Proposition
-In corporate treasury, banking, and insurance sectors, managing currency risk waves is critical for solvency and asset-liability matching. This project provides a robust framework to:
-* **Automate Data Integrity**: Strip out anomalies from unstructured historical tracking data to deliver a single source of truth for downstream business intelligence.
-* **Identify Structural Risk Breakpoints**: Mathematically prove structural non-stationarity versus mean-reverting behaviors across foreign reserve asset pairs.
-* **Model Asymmetric Shocks**: Capture the "leverage effect"—the financial reality that negative macroeconomic updates drive currency volatility waves harder than positive ones.
-* **Deploy Out-of-Sample Projections**: Generate an explicit 5-day predictive risk horizon to optimize hedging, pricing, and Value-at-Risk (VaR) allocations.
+## Econometric Metrics & High-Impact Milestones
+*   **Perfect Stationarity Achieved:** While raw currency spot rates exhibit long-term trends, the feature engineering scripts successfully stabilize the data. The log return series achieved an ADF p-value of **0.000000** across all 7 tracked currencies, satisfying the primary stationarity prerequisite for time-series forecasting.
+*   **Volatility Clustering Proven:** The ARCH-LM diagnostic test rejected the constant variance hypothesis across all lag checkpoints (peaking at a high LM statistic of **863.66**). This mathematically proves that exchange rate risk travels in wave clusters, validating the use of advanced GARCH models over simple linear alternatives.
+*   **Asymmetric Leverage Extraction:** Out-of-sample volatility engines capture true structural leverage effects (e.g., the USD/KES leverage coefficient of **0.285491**), exposing how negative macroeconomic updates drive currency volatility waves harder than positive news.
 
----
 
-##  Architecture & Pipeline Engineering Component
 
-The repository enforces a strict separation of concerns, transitioning an academic workflow into a production-ready software environment:
+##  Project Repository Directory Structure
+```text
+cbk-fx-volatility-pipeline/
+├── data/
+│   ├── cbkScrappeddata.csv               # Raw unstructured historical exchange records
+│   ├── cbk_exchange_rates_clean.csv      # Cleaned daily currency master records
+│   └── cbk_exchange_returns_final.csv    # Final processed simple and log return series
+├── documentation/
+│   ├── currency_plots/                   # Standalone high-resolution currency trend graphs
+│   ├── distribution_plots/               # Empirical vs. normal curve overlay charts
+│   ├── log_returns_descriptive_statistics.csv # 9-point descriptive statistical tables
+│   ├── arima_adf_diagnostics.csv         # Unit root stationarity validation registries
+│   ├── arch_lm_test_summary.csv          # Engle ARCH-LM volatility clustering logs
+│   └── volatility_forecast_projections.csv # Final 5-day out-of-sample econometric forecasts
+├── scripts/
+│   ├── clean_data.py                     # Schema standardization and normalization script
+│   ├── simple_returns_analytics.py       # Daily simple returns feature compiler
+│   ├── log_returns_analytics.py          # Continuous log returns mathematical transformer
+│   ├── descriptive_returns_pipeline.py   # High-resolution time-series plotting engine
+│   ├── distribution_analysis.py          # Empirical histogram visualization builder
+│   ├── hypothesis_testing.py             # 1-sample t-test inferential statistics core
+│   ├── stationarity_testing.py           # Automated ADF stationarity diagnostic script
+│   ├── arima_diagnostic_testing.py      # Forced 8-lag trend ADF unit root matrix analyzer
+│   ├── arma_model_selection.py           # Automated ARMA(p,q) parameter grid search compiler
+│   ├── residual_lag_analysis.py          # ADF(8) regression and Ljung-Box Q-test utility
+│   ├── volatility_diagnostic_testing.py  # ARIMA filtering and Engle ARCH-LM test engine
+│   └── advanced_volatility_forecasting.py # Asymmetric EGARCH and GJR-GARCH forecasting core
+└── README.md                             # Master repository presentation layout brief
+```
 
-* **`data/`**: Staging layer containing processed clean currency records and generated mathematical return matrices.
-* **`scripts/`**: Core production-grade automated engineering and forecasting modules:
-    * `clean_data.py`: **Data Quality Layer**. Programmatically normalizes nested scrape headers, sanitizes text strings containing formatting commas, removes duplicated date records to secure primary key constraints, and applies forward-fill (`ffill`) rules to smoothly patch market closure gaps.
-    * `compute_returns.py`: **Feature Engineering Engine**. Transforms raw daily spot levels into independent arrays for both simple percentage changes and continuously compounded geometric Log Returns (\(\ln(P_t/P_{t-1})\)).
-    * `hypothesis_testing.py`: **Inference Testing Engine**. Executes formal 1-sample t-tests at an α = 0.05 threshold to verify the zero-mean random walk properties of daily innovations.
-    * `stationarity_testing.py`: **Econometric Diagnostics**. Runs Augmented Dickey-Fuller (ADF) models to test for unit roots and ensure the statistical stability of data prior to predictive scaling.
-    * `volatility_diagnostic_testing.py`: **Variance Validation Engine**. Executes Engle’s ARCH-LM test up to 40 lags to evaluate conditional variance fluctuations and map volatility clustering.
-    * `advanced_volatility_forecasting.py`: **Predictive Risk Model**. Fits asymmetric **EGARCH(1,1)** and **GJR-GARCH(1,1)** architectures paired with heavy-tailed Student-t distributions to output 5-day ahead conditional standard deviation forecasts.
-* **`documentation/`**: Houses independent high-resolution graphic plots, density distribution subplots overlaying theoretical normal distributions, and the master `project_specs.md` detailing simple English findings for stakeholder reporting.
 
----
 
-##  Enterprise Tech Stack
-* **Language Layer**: Python 3.10+ (Core execution environment)
-* **Data Engineering & Visualization**: `pandas`, `numpy`, `matplotlib`, `seaborn`
-* **Advanced Financial Econometrics**: `scipy.stats`, `statsmodels.tsa`, `arch`
-* **Downstream Integration Capable**: Ready for structured schema injection via SQL (PostgreSQL/MySQL) and live connection streaming to Power BI executive dashboards.
+##  Quick Start Execution Guide
+Ensure you have your required Python dependencies active within your local terminal environment before running the operational pipeline modules sequentially:
 
----
+```bash
+# Install core quantitative and time-series dependencies
+pip install pandas numpy scipy statsmodels arch matplotlib seaborn
 
-##  High-Impact Analytical Milestones
-
-1. **Perfect Stationarity Achieved**: While raw currency spot rates exhibit long-term deterministic trends, the feature engineering pipeline successfully stabilizes the data. The log return series achieved an ADF p-value of **0.000000** across all 7 tracked currencies, satisfying the primary prerequisite for time-series forecasting.
-2. **Volatility Clustering Proven**: The ARCH-LM diagnostic test strongly rejected the constant variance hypothesis across all lag checkpoints (10 up to 40 lags) with p-values of **0.000000** and exceptionally high LM statistics (peaking at 863.66). This mathematically proves that risk travels in clusters and waves, validating the use of GARCH family models over basic linear regressions.
-3. **Out-of-Sample Volatility Expansion**: The final forecasting system isolates the structural leverage effects (e.g., USD/KSH leverage coefficient of **0.285491**) and maps an expanding daily risk matrix for the upcoming trading week. This offers quantitative teams clear, actionable visibility into how risk spreads cascade dynamically day-by-day.
-4.
+# Run the complete data analytics and volatility pipeline in order
+python scripts/clean_data.py
+python scripts/simple_returns_analytics.py
+python scripts/log_returns_analytics.py
+python scripts/descriptive_returns_pipeline.py
+python scripts/distribution_analysis.py
+python scripts/hypothesis_testing.py
+python scripts/stationarity_testing.py
+python scripts/arima_diagnostic_testing.py
+python scripts/arma_model_selection.py
+python scripts/residual_lag_analysis.py
+python scripts/volatility_diagnostic_testing.py
+python scripts/advanced_volatility_forecasting.py
+```
