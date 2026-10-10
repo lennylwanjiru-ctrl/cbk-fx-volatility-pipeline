@@ -1,26 +1,40 @@
+"""
+
+Module: Econometric Residual Diagnostics (Dynamic ARIMA Filtering & Engle ARCH-LM Multi-Lag Test)
+
+"""
+
 import os
-import pandas as pd
-import numpy as np
+import logging
 import warnings
+import numpy as np
+import pandas as pd
 from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.stats.diagnostic import het_arch
 
-# Silence model convergence logs to keep terminal presentation clean
+# Silence non-critical mathematical optimization and convergence logs
 warnings.filterwarnings('ignore')
 
-def run_arch_lm_tests():
-    print(" Executing ARIMA Part (v): ARCH-LM Volatility Cluster Testing...")
+# Configure enterprise logger interface for execution tracking
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def run_arch_lm_volatility_tests():
+    """
+    Ingests daily currency log returns, filters out linear dependencies using optimal 
+    ARIMA orders, and executes an Engle ARCH-LM test to scan for conditional heteroskedasticity.
+    """
+    logging.info("Initializing ARCH-LM conditional volatility clustering diagnostic suite...")
     
     source_file = os.path.join("data", "cbk_exchange_returns_final.csv")
     output_file = os.path.join("documentation", "arch_lm_test_summary.csv")
     
     if not os.path.exists(source_file):
-        print(f" Missing source file: {source_file}. Run compute_returns.py first.")
+        logging.error(f"Execution Aborted: Base data registry missing at destination path: {source_file}")
         return
-
+        
     df = pd.read_csv(source_file)
     
-    # Active currency configs and their matching optimal ARMA(p,q) orders from Part (iii)
+    # Standardized dictionary pairing active currency return series with optimized ARMA(p,q) lag orders
     currency_models = {
         'usd_ksh_log_return': (2, 2),
         'eur_ksh_log_return': (2, 0),
@@ -31,51 +45,68 @@ def run_arch_lm_tests():
         'sar_ksh_log_return': (3, 3)
     }
     
-    # Specific lag milestones requested by the question
+    # Specific lag milestones requested for comprehensive cross-sectional checking
     target_lags = [10, 15, 20, 25, 30, 35, 40]
     arch_records = []
     
+    logging.info("Executing residual ARIMA extractions and Lagrange Multiplier test matrices...")
     for col, (p, q) in currency_models.items():
         if col not in df.columns:
             continue
             
         currency_label = col.replace('_log_return', '').replace('_', '/').upper()
-        print(f" Fitting ARMA({p},{q}) and testing variance lags for {currency_label}...")
-        
         series = df[col].dropna().values
         
-        # Fit the optimal ARMA model to extract clean filtered residuals
-        model = ARIMA(series, order=(p, 0, q)).fit()
-        residuals = model.resid
-        
-        # Run the ARCH-LM test at each requested lag milestone
-        for lag in target_lags:
-            # het_arch returns: (lm_stat, lm_pvalue, f_stat, f_pvalue)
-            lm_stat, lm_pvalue, _, _ = het_arch(residuals, nlags=lag)
+        try:
+            # Fit the optimized ARIMA(p,0,q) model to filter out baseline conditional mean features
+            model = ARIMA(series, order=(p, 0, q)).fit()
+            residuals = model.resid
             
-            verdict = "Heteroskedastic (A)" if lm_pvalue < 0.05 else "Homoskedastic (B)"
-            
-            arch_records.append({
-                "Currency": currency_label,
-                "Lag Checked": lag,
-                "LM Statistic": lm_stat,
-                "p-Value": lm_pvalue,
-                "Verdict (5% Level)": verdict
-            })
-            
+            # Execute the Engle ARCH-LM test at each sequential lag milestone
+            for lag in target_lags:
+                lm_stat, lm_pvalue, _, _ = het_arch(residuals, nlags=lag)
+                
+                # Formulate structural system tokens for automated database schema tracking
+                if lm_pvalue < 0.05:
+                    diagnostic_status_id = "HETEROSKEDASTIC_ARCH_EFFECTS_PRESENT"
+                else:
+                    diagnostic_status_id = "HOMOSKEDASTIC_VARIANCE_STABILITY"
+                    
+                arch_records.append({
+                    "Currency": currency_label,
+                    "Lag Checked": lag,
+                    "LM Statistic": lm_stat,
+                    "p-Value": lm_pvalue,
+                    "Test Verdict": diagnostic_status_id
+                })
+                
+        except Exception as e:
+            logging.error(f"ARCH-LM Inversion Suite Failed for asset profile [{currency_label}]: {str(e)}")
+            continue
+
+    # Compile measurements into an unified summary data frame
     summary_table = pd.DataFrame(arch_records)
-    summary_table = summary_table.round({"LM Statistic": 4, "p-Value": 6})
+    
+    # Apply standard 6-decimal floating limits across background database records
+    summary_table = summary_table.round(6)
     
     os.makedirs("documentation", exist_ok=True)
     summary_table.to_csv(output_file, index=False)
+    logging.info(f"Volatility clustering metrics successfully written to: {output_file}")
     
+    # Tweak custom visual roundings to optimize terminal display aesthetics
+    summary_table = summary_table.round({
+        "LM Statistic": 4,
+        "p-Value": 6
+    })
+
+    # Corporate Auditing Layout Reporting
     print("\n" + "="*95)
-    print("                           ARIMA PART (v): ARCH-LM VOLATILITY DIAGNOSTIC")
-    print("===============================================================================================")
-    # Print out a slice or full grid for immediate verification
-    print(summary_table.to_string(index=False))
+    print("ARIMA PART (V): ENGLE ARCH-LM VOLATILITY CLUSTERING DIAGNOSTIC LEDGER")
     print("="*95)
-    print(f" ARCH-LM test logs successfully compiled and saved to:\n📂 '{output_file}'\n")
+    print(summary_table.to_string(index=False))
+    print("="*95 + "\n")
 
 if __name__ == "__main__":
-    run_arch_lm_tests()
+    run_arch_lm_volatility_tests()
+    
